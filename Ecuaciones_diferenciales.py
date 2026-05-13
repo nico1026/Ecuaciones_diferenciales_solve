@@ -51,7 +51,7 @@ try:
 
     st.divider()
     
-    st.write("### Ecuación analisasadda:")
+    st.write("### Ecuación analisasada:")
     st.latex(latex(ecuacion))
     if st.button("🚀 RESOLVER ECUACIÓN"):
         st.subheader("2. Resultado de la Solución")       
