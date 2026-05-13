@@ -80,3 +80,5 @@ except Exception as e:
     st.warning("Recuerdaasd de escribir correctamente la sintaxxis de SymPy (ej. usar '*' para multiplicar)")
 
 st.divider()
+st.caption("Miguel sotelo pinto | Ing. Mecánica ")
+
