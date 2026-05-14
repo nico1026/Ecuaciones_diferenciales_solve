@@ -7,7 +7,7 @@ st.set_page_config(page_title="ECDI", layout="wide", page_icon="👨‍🔧")
 
 st.title("👨‍🔧 SOLUCIONADOR DE ECUACIONES DIFERENCIALES")
 st.markdown("Esta herramienta detecta el orden de tu ecuación.")
-with st.expander("📖 Guía de Sintaxis y Léxico (Haz clic para expandir)"):
+with st.expander("📖 Guía de como escribir una ecuación"):
     st.markdown("""
     Para que el motor matemático entienda tu ecuación, usa las siguientes reglas:
     
