@@ -7,6 +7,26 @@ st.set_page_config(page_title="ECDI", layout="wide", page_icon="👨‍🔧")
 
 st.title("👨‍🔧 SOLUCIONADOR DE ECUACIONES DIFERENCIALES")
 st.markdown("Esta herramienta detecta el orden de tu ecuación.")
+with st.expander("📖 Guía de Sintaxis y Léxico (Haz clic para expandir)"):
+    st.markdown("""
+    Para que el motor matemático entienda tu ecuación, usa las siguientes reglas:
+    
+    *   **Función Principal:** Siempre escribe la función como **`y(x)`**.
+    *   **Derivadas:** 
+        *   $y'$ → `diff(y(x), x)`
+        *   $y''$ → `diff(y(x), x, 2)`
+        *   $y^{(n)}$ → `diff(y(x), x, n)`
+    *   **Operaciones:**
+        *   Multiplicación: Usa siempre `*` (ejemplo: `5*y(x)` en lugar de `5y`).
+        *   Potencias: Usa `**` (ejemplo: `x**2`).
+    *   **Funciones Comunes:**
+        *   Exponencial: `exp(x)`
+        *   Trigonométricas: `sin(x)`, `cos(x)`, `tan(x)`
+        *   Logaritmo: `log(x)` (es el logaritmo natural).
+    
+    **Ejemplo de una ecuación:**
+    `diff(y(x), x, 2) + 3*diff(y(x), x) + 2*y(x) - sin(x)`
+    """)
 
 
 st.subheader("1. Definición de la Ecuación")
