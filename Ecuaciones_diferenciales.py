@@ -49,7 +49,7 @@ try:
     st.latex(latex(ecuacion))
 
   
-    if st.button("🚀 RESOLVER Y GRAFICAR"):
+    if st.button("RESOLVER Y GRAFICAR"):
         st.divider()
         
     
