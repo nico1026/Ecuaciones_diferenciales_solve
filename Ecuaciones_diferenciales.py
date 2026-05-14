@@ -3,13 +3,12 @@ from sympy import symbols, Function, dsolve, Eq, latex, sympify, lambdify, Deriv
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 1. Configuración de la página
-st.set_page_config(page_title="Universal ODE Solver", layout="wide", page_icon="🧬")
+st.set_page_config(page_title="ECDI", layout="wide", page_icon="👨‍🔧")
 
-st.title("🧬 Universal N-Order ODE Solver")
-st.markdown("Esta herramienta detecta automáticamente el orden de tu ecuación y genera los campos necesarios en el sidebar.")
+st.title("👨‍🔧 SOLUCIONADOR DE ECUACIONES DIFERENCIALES")
+st.markdown("Esta herramienta detecta el orden de tu ecuación.")
 
-# --- ENTRADA DE LA ECUACIÓN ---
+
 st.subheader("1. Definición de la Ecuación")
 user_input = st.text_input(
     "Escribe la expresión (LHS = 0):", 
@@ -17,16 +16,14 @@ user_input = st.text_input(
     help="Usa diff(y(x), x, n) para derivadas. Ejemplo: y'' + y = 0 es diff(y(x), x, 2) + y(x)"
 )
 
-# Definición de símbolos base
+
 x = symbols('x')
 y = Function('y')
 
 try:
-    # Parsing de la ecuación
-    expr_tmp = sympify(user_input)
-    
-    # 2. DETECCIÓN DINÁMICA DEL ORDEN
-    # Buscamos todas las derivadas en la expresión
+   
+    expr_tmp = sympify(user_input)    
+
     derivadas = expr_tmp.atoms(Derivative)
     orden_max = 0
     for d in derivadas:
@@ -46,16 +43,16 @@ try:
             val = st.sidebar.number_input(f"Valor para {label}:", value=0.0, key=f"dyn_ic_{i}")
             ics_values.append(val)
     
-    # Mostrar la ecuación interpretada
+   
     ecuacion = Eq(expr_tmp, 0)
     st.write("### Ecuación Interpretada:")
     st.latex(latex(ecuacion))
 
-    # --- BOTÓN DE RESOLUCIÓN ---
+  
     if st.button("🚀 RESOLVER Y GRAFICAR"):
         st.divider()
         
-        # Construir el diccionario de condiciones iniciales para SymPy
+    
         condiciones_dict = {}
         for i, val in enumerate(ics_values):
             if i == 0:
@@ -63,7 +60,7 @@ try:
             else:
                 condiciones_dict[y(x).diff(x, i).subs(x, 0)] = val
 
-        with st.spinner("Calculando solución analítica..."):
+        with st.spinner("Calculando solución "):
             solucion = dsolve(ecuacion, y(x), ics=condiciones_dict)
             
             col_sol, col_plt = st.columns(2)
