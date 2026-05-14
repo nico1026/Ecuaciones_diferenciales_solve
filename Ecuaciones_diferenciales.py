@@ -11,12 +11,10 @@ st.markdown("Esta herramienta detecta el orden de tu ecuación.")
 
 st.subheader("1. Definición de la Ecuación")
 user_input = st.text_input(
-    "Escribe la expresión (LHS = 0):", 
+    "Escribe la expresión, RECUERDA IGU8ALARLA A 0:", 
     value="diff(y(x), x, 2) + 5*diff(y(x), x) + 6*y(x)",
     help="Usa diff(y(x), x, n) para derivadas. Ejemplo: y'' + y = 0 es diff(y(x), x, 2) + y(x)"
 )
-
-
 x = symbols('x')
 y = Function('y')
 
@@ -27,18 +25,16 @@ try:
     derivadas = expr_tmp.atoms(Derivative)
     orden_max = 0
     for d in derivadas:
-        if d.expr == y(x):
-            # El orden es el número de variables respecto a las que se deriva
+        if d.expr == y(x):            
             orden_max = max(orden_max, len(d.variables))
     
-    # 3. GENERACIÓN DE INPUTS EN EL SIDEBAR
+    
     st.sidebar.header("📍 Condiciones Iniciales")
     st.sidebar.write(f"Orden detectado: **{orden_max}**")
     
     ics_values = []
     if orden_max > 0:
-        for i in range(orden_max):
-            # Creamos etiquetas y'(0), y''(0)...
+        for i in range(orden_max):            
             label = f"y{'’'*i}(0)" if i > 0 else "y(0)"
             val = st.sidebar.number_input(f"Valor para {label}:", value=0.0, key=f"dyn_ic_{i}")
             ics_values.append(val)
@@ -71,8 +67,7 @@ try:
             
             with col_plt:
                 st.success("📈 Comportamiento Gráfico")
-                try:
-                    # Convertir a función numérica para graficar
+                try:                    
                     f_num = lambdify(x, solucion.rhs, modules=['numpy'])
                     x_vals = np.linspace(0, 10, 500)
                     y_vals = f_num(x_vals)
@@ -92,7 +87,6 @@ try:
 except Exception as e:
     st.error(f"Error al procesar la ecuación: {e}")
     st.info("Asegúrate de usar la sintaxis correcta, por ejemplo: `diff(y(x), x, 2)`")
-
 
 st.divider()
 st.caption("Miguel sotelo pinto | Ing. Mecánica ")
