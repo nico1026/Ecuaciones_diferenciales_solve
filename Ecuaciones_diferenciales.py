@@ -1,83 +1,94 @@
 import streamlit as st
-from sympy import symbols, Function, dsolve, Eq, exp, sin, cos, latex, sympify, laplace_transform, inverse_laplace_transform
+from sympy import symbols, Function, dsolve, Eq, latex, sympify, lambdify, Degree
+import numpy as np
+import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Ecuaciones diferenciales", layout="wide")
-st.markdown("""
-    <style>
-    .main { background-color: #f5f7f9; }
-    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #007bff; color: white; }
-    </style>
-    """, unsafe_allow_html=True)
 
-st.title("🌌 ¿QUIERES SOLUCIONAR ECUACIONES DIFERENCIALES?")
-st.write("Resuelve ecuaciones analíticamente, por Laplace o mediante métodos avanzados.")
-# ---------------------------------------------------------------------
-st.sidebar.header("🛠️ Paametros")
-metodo_res = st.sidebar.selectbox("Método de Resolución", 
-    ["Automático (dsolve)", "Transformada de Laplace", "Variables Separables"])
+st.set_page_config(page_title="ecdi solve", layout="wide", page_icon="👨‍🔧")
 
-with st.sidebar.expander("📍 Condiciones Iniciales", expanded=True):
-    aplicar_ics = st.checkbox("¿Usar condiciones iniciales?")
-    val_y0 = st.number_input("y(0) =", value=0.0)
-    val_yp0 = st.number_input("y'(0) =", value=0.0)
+st.title("👨‍🔧 Solucionador de Ecuaciones diferenciales")
+st.markdown("Esta herramienta detectara el orden de tu ecuación.")
 
-# --------------------------------------------------------------
-st.subheader("1. Define tu Ecuación")
-col_input, col_help = st.columns([2, 1])
+# 1. ENTRADA DE LA ECUACIÓN (Primero para saber el orden)
+st.subheader("1. Definición de la Ecuación")
+user_input = st.text_input(
+    "Escribe la expresión (LHS = 0):", 
+    value="diff(y(x), x, 2) + 5*diff(y(x), x) + 6*y(x)",
+    help="Usa diff(y(x), x, n) para derivadas."
+)
 
-with col_input:
-    user_expr = st.text_input(
-        "Escribe la expresión igualada a cero:", 
-        value="diff(y(x), x, 2) + 3*diff(y(x), x) + 2*y(x) - exp(x)",
-        help="Usa diff(y(x), x) para y'. Ejemplo: y'' + y = 0 -> diff(y(x), x, 2) + y(x)"
-    )
-
-with col_help:
-    st.info("""
-    **Sintaxis rápida:**
-    - `diff(y(x), x)` → $y'$
-    - `diff(y(x), x, 2)` → $y''$
-    - `exp(x)` → $e^x$
-    - `sin(x)`, `cos(x)`
-    """)
-
-# ------ solcuoioon matematica 
+# Definición de símbolos base
 x = symbols('x')
 y = Function('y')
 
 try:
-    lhs = sympify(user_expr)
-    ecuacion = Eq(lhs, 0)
-
-    st.divider()
+    # Pre-análisis de la ecuación para detectar el orden
+    expr_tmp = sympify(user_input)
+    # Buscamos el orden máximo de derivación de y(x)
+    derivadas = expr_tmp.atoms(Function)
+    orden_max = 0
+    for d in expr_tmp.atoms(symbols('Derivative')): # Busca términos de tipo derivada
+        if d.expr == y(x):
+            orden_max = max(orden_max, d.derivative_count)
     
-    st.write("### Ecuación analisasada:")
+    # 2. GENERACIÓN DINÁMICA DE INPUTS EN EL SIDEBAR
+    st.sidebar.header("📍 Condiciones Iniciales")
+    st.sidebar.write(f"Orden detectado: **{orden_max}**")
+    
+    ics_values = []
+    if orden_max > 0:
+        for i in range(orden_max):
+            label = f"y{'’'*i}(0)" if i > 0 else "y(0)"
+            val = st.sidebar.number_input(f"Valor para {label}:", value=0.0, key=f"dyn_ic_{i}")
+            ics_values.append(val)
+    
+    # 3. PROCESAMIENTO Y RESOLUCIÓN
+    ecuacion = Eq(expr_tmp, 0)
+    st.write("### Ecuación Interpretada:")
     st.latex(latex(ecuacion))
-    if st.button("🚀 RESOLVER ECUACIÓN"):
-        st.subheader("2. Resultado de la Solución")       
-        ics = None
-        if aplicar_ics:            
-            ics = {y(0): val_y0, y(x).diff(x).subs(x, 0): val_yp0}        
-        with st.spinner('Calculanndo...'):
-            if metodo_res == "Automático (dsolve)":
-                solucion = dsolve(ecuacion, y(x), ics=ics)
-                
-            elif metodo_res == "Transformada de Laplace":
-                
-                try:
-                    solucion = dsolve(ecuacion, y(x), ics=ics, hint='lie_group') 
-                except:
-                    solucion = dsolve(ecuacion, y(x), ics=ics)
 
-            st.success("¡Solución encontrada con éxito!")
-            st.latex(latex(solucion))
+    if st.button("🚀 RESOLVER Y GRAFICAR"):
+        st.divider()
+        
+        # Construir el diccionario de condiciones iniciales
+        condiciones_dict = {}
+        for i, val in enumerate(ics_values):
+            if i == 0:
+                condiciones_dict[y(0)] = val
+            else:
+                condiciones_dict[y(x).diff(x, i).subs(x, 0)] = val
+
+        with st.spinner("Calculando..."):
+            solucion = dsolve(ecuacion, y(x), ics=condiciones_dict)
             
-            #### faltan las graficas 
-            st.session_state['last_sol'] = solucion
+            col_sol, col_plt = st.columns(2)
+            
+            with col_sol:
+                st.success("✅ Solución Analítica")
+                st.latex(latex(solucion))
+            
+            with col_plt:
+                st.success("📈 Comportamiento")
+                try:
+                    f_num = lambdify(x, solucion.rhs, modules=['numpy'])
+                    x_vals = np.linspace(0, 10, 500)
+                    y_vals = f_num(x_vals)
+                    
+                    if isinstance(y_vals, (int, float, np.float64)):
+                        y_vals = np.full_like(x_vals, y_vals)
+
+                    fig, ax = plt.subplots()
+                    ax.plot(x_vals, y_vals, color='red', lw=2)
+                    ax.set_xlabel("x")
+                    ax.set_ylabel("y(x)")
+                    ax.grid(True, alpha=0.3)
+                    st.pyplot(fig)
+                except Exception as e:
+                    st.warning("La gráfica no pudo generarse (posibles valores complejos o infinitos).")
 
 except Exception as e:
-    st.error(f"⚠️ Error en la expresión: {e}")
-    st.warning("Recuerdaasd de escribir correctamente la sintaxxis de SymPy (ej. usar '*' para multiplicar)")
+    st.error(f"Error al procesar la ecuación: {e}")
+    st.info("Revisa que la sintaxis sea correcta: `diff(y(x), x, n)`")
 
 st.divider()
 st.caption("Miguel sotelo pinto | Ing. Mecánica ")
