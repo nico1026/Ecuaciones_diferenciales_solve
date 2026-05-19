@@ -114,17 +114,17 @@ st.subheader("👥 Equipo de Trabajo")
 
 fila1_col1, fila1_col2, fila1_col3 = st.columns(3)
 
-with fila1_col1:
+with fila2_col2:
     st.image("imagenes/brandon.jpeg", use_container_width=True)
-    st.markdown("<center><b>Brandon</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Brandon stiben pardo Sanchez</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
 
 with fila1_col2:
     st.image("imagenes/dilan.jpeg", use_container_width=True)
-    st.markdown("<center><b>Dilan</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Dilan Orlando Arguello Cartagena</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
 
 with fila1_col3:
     st.image("imagenes/edwin.jpeg", use_container_width=True)
-    st.markdown("<center><b>Edwin</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Edwin Alfredo Blanco Puentes</b><br>Ing. Electronica</center>", unsafe_allow_html=True)
 
 st.write("") 
 
@@ -134,8 +134,8 @@ f2_aux1, fila2_col1, f2_aux2, fila2_col2, f2_aux3 = st.columns([1, 2, 1, 2, 1])
 with fila2_col1:
    
     st.image("imagenes/Lisseth.jpeg", use_container_width=True)
-    st.markdown("<center><b>Lisseth</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Lisseth Maryuri Peña Acosta</b><br>Ing. Industrial</center>", unsafe_allow_html=True)
 
-with fila2_col2:
+with fila1_col1:
     st.image("imagenes/migue.jpeg", use_container_width=True)
-    st.markdown("<center><b>Miguel Sotelo Pinto</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Miguel Angel Sotelo Pinto</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
