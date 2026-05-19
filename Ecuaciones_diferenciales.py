@@ -2,6 +2,7 @@ import streamlit as st
 from sympy import symbols, Function, dsolve, Eq, latex, sympify, lambdify, Derivative
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 st.set_page_config(page_title="ECDI", layout="wide", page_icon="👨‍🔧")
 
