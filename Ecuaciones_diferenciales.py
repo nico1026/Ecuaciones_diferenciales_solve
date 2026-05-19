@@ -117,8 +117,6 @@ fila1_col1, fila1_col2, fila1_col3 = st.columns(3)
 with fila1_col1:
     st.image("imagenes/migue.jpeg", use_container_width=True)
     st.markdown("<center><b>Miguel Angel Sotelo Pinto</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
-    st.image("imagenes/brandon.jpeg", use_container_width=True)
-    st.markdown("<center><b>Brandon stiben pardo Sanchez</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
 
 with fila1_col2:
     st.image("imagenes/dilan.jpeg", use_container_width=True)
