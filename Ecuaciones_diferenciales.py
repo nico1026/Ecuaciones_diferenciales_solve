@@ -124,18 +124,20 @@ with fila1_col2:
 
 with fila1_col3:
     st.image("imagenes/edwin.jpeg", use_container_width=True)
-    st.markdown("<center><b>Edwin Alfredo Blanco Puentes</b><br>Ing. Electronica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Edwin Alfredo Blanco Puentes</b><br>Ing. Electrónica</center>", unsafe_allow_html=True)
 
-st.write("") 
+st.write("") # Espacio vertical de separación entre filas
 
-
-f2_aux1, fila2_col1, f2_aux2, fila2_col2, f2_aux3 = st.columns([1, 2, 1, 2, 1])
+fila2_col1, fila2_col2, fila2_col3 = st.columns(3)
 
 with fila2_col1:
-   
     st.image("imagenes/Lisseth.jpeg", use_container_width=True)
     st.markdown("<center><b>Lisseth Maryuri Peña Acosta</b><br>Ing. Industrial</center>", unsafe_allow_html=True)
 
 with fila2_col2:
     st.image("imagenes/brandon.jpeg", use_container_width=True)
-    st.markdown("<center><b>Brandon stiben pardo Sanchez</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+    st.markdown("<center><b>Brandon Stiben Pardo Sánchez</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+
+with fila2_col3:
+    st.image("imagenes/brayan.jpeg", use_container_width=True)
+    st.markdown("<center><b>Brayan Steven Silva Hernández</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
