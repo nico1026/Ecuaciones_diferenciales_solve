@@ -110,34 +110,4 @@ except Exception as e:
     st.info("Asegúrate de usar la sintaxis correcta, por ejemplo: `diff(y(x), x, 2)`")
 
 st.divider()
-st.subheader("👥 Equipo de Trabajo")
-
-fila1_col1, fila1_col2, fila1_col3 = st.columns(3)
-
-with fila1_col1:
-    st.image("imagenes/migue.jpeg", use_container_width=True)
-    st.markdown("<center><b>Miguel Angel Sotelo Pinto</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
-
-with fila1_col2:
-    st.image("imagenes/dilan.jpeg", use_container_width=True)
-    st.markdown("<center><b>Dilan Orlando Arguello Cartagena</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
-
-with fila1_col3:
-    st.image("imagenes/edwin.jpeg", use_container_width=True)
-    st.markdown("<center><b>Edwin Alfredo Blanco Puentes</b><br>Ing. Electrónica</center>", unsafe_allow_html=True)
-
-st.write("") # Espacio vertical de separación entre filas
-
-fila2_col1, fila2_col2, fila2_col3 = st.columns(3)
-
-with fila2_col1:
-    st.image("imagenes/Lisseth.jpeg", use_container_width=True)
-    st.markdown("<center><b>Lisseth Maryuri Peña Acosta</b><br>Ing. Industrial</center>", unsafe_allow_html=True)
-
-with fila2_col2:
-    st.image("imagenes/brandon.jpeg", use_container_width=True)
-    st.markdown("<center><b>Brandon Stiben Pardo Sánchez</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
-
-with fila2_col3:
-    st.image("imagenes/brayan.jpeg", use_container_width=True)
-    st.markdown("<center><b>Brayan Steven Silva Hernández</b><br>Ing. Mecánica</center>", unsafe_allow_html=True)
+st.caption("Nicolas Sotelo")
